@@ -41,7 +41,7 @@ def start():
     """
     print(json.dumps(data))
 
-    color = "#00FF00"
+    color = "#6B5B95"
 
     return start_response(color)
 
@@ -54,13 +54,13 @@ def move():
     TODO: Using the data from the endpoint request object, your
             snake AI must choose a direction to move in.
     """
-    print(json.dumps(data))
+    data = bottle.request.json
+    snek, grid = init(data)
+    
+    directions = ['up', 'down', 'left', 'right']
+    direction = random.choice(directions)
 
-    ##directions = ['up', 'down', 'left', 'right']
-    ##direction = random.choice(directions)
-
-    ##return move_response(direction)
-    return move_response('up')
+    return move_response(direction)
 
 
 @bottle.post('/end')
