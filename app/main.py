@@ -146,7 +146,7 @@ def move():
     safeMoves = []
     directions = ['up', 'down', 'left', 'right']
     for direction in directions:
-        if square_is_safe(one_move(direction)):
+        if square_is_safe(one_move(direction), dangerSquares, data["height"], data["width"]):
             safeMoves.append(direction)
     
     if len(safeMoves) == 0:
