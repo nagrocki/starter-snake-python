@@ -41,7 +41,7 @@ from api import ping_response, start_response, move_response, end_response
 #     "gold": 2
 # }
 
-def snek_dist(sq1,sq2)
+def snek_dist(sq1,sq2):
     '''
     takes in two tuples and returns taxicab distance
     '''
@@ -49,7 +49,7 @@ def snek_dist(sq1,sq2)
     dy = abs(sq1[1]-sq2[1])
     return dx + dy
 
-def one_move(square, direction)
+def one_move(square, direction):
     newSquare = [0,0]
     if direction == "up":
         newSquare[0] = square[0]
@@ -65,7 +65,7 @@ def one_move(square, direction)
         newSquare[1] = square[1]
     return newSquare
 
-def square_is_safe(square, dangerSquares, height, width)
+def square_is_safe(square, dangerSquares, height, width):
     '''
     takes in danger squares and returns safe squares for a 
     data["height"]xdata["width"] grid
@@ -75,8 +75,8 @@ def square_is_safe(square, dangerSquares, height, width)
         safe = False
     if square[0]<0 or square[0]>=width or square[1]<0 or square[1]>=length:
         safe = False
-    
-def next_move(snakeHead)
+    return safe
+#def next_move(snakeHead):
     '''
     out of move options, choose safe square closest to another snake
     '''
