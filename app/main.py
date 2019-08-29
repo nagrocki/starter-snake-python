@@ -36,8 +36,9 @@ def square_is_safe(square, dangerSquares, height, width):
     data["height"]xdata["width"] grid
     '''
     safe = True
-    if square in dangerSquares:
-        safe = False
+    for dSquare in dangerSquares:
+        if dSquare["x"] == square["x"] and dSquare["y"] == square["y"]:
+            safe = False
     if square["x"]<0 or square["x"]>=width or square["y"]<0 or square["y"]>=height:
         safe = False
     return safe
