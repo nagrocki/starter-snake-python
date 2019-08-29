@@ -25,7 +25,7 @@ def one_move(square, direction):
     elif direction == "left":
         newSquare["x"] = square["x"] - 1
         newSquare["y"] = square["y"]
-    elif direction == "right":"y"
+    elif direction == "right":
         newSquare["x"] = square["x"] + 1
         newSquare["y"] = square["y"]
     return newSquare
