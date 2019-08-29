@@ -5,64 +5,29 @@ import bottle
 
 from api import ping_response, start_response, move_response, end_response
 
-# DATA OBJECT
-# {
-#     "game": "hairy-cheese",
-#     "mode": "advanced",
-#     "turn": 4,
-#     "height": 20,
-#     "width": 30,
-#     "snakes": [
-#         <Snake Object>, <Snake Object>, ...
-#     ],
-#     "food": [
-#         [1, 2], [9, 3], ...
-#     ],
-#     "walls": [    // Advanced Only
-#         [2, 2]
-#     ],
-#     "gold": [     // Advanced Only
-#         [5, 5]
-#     ]
-# }
-
-#SNAKE
-# {
-#     "id": "1234-567890-123456-7890",
-#     "name": "Well Documented Snake",
-#     "status": "alive",
-#     "message": "Moved north",
-#     "taunt": "Let's rock!",
-#     "age": 56,
-#     "health": 83,
-#     "coords": [ [1, 1], [1, 2], [2, 2] ],
-#     "kills": 4,
-#     "food": 12,
-#     "gold": 2
-# }
 
 def snek_dist(sq1,sq2):
     '''
     takes in two tuples and returns taxicab distance
     '''
-    dx = abs(sq1[0]-sq2[0])
-    dy = abs(sq1[1]-sq2[1])
+    dx = abs(sq1["x"]-sq2["x"])
+    dy = abs(sq1["y"]-sq2["y"])
     return dx + dy
 
 def one_move(square, direction):
-    newSquare = [0,0]
+    newSquare = {"x": 0, "y":0}
     if direction == "up":
-        newSquare[0] = square[0]
-        newSquare[1] = square[1] + 1
+        newSquare["x"] = square["x"]
+        newSquare["y"] = square["y"] + 1
     elif direction == "down":
-        newSquare[0] = square[0]
-        newSquare[1] = square[1] - 1
+        newSquare["x"] = square["x"]
+        newSquare["y"] = square["y"] - 1
     elif direction == "left":
-        newSquare[0] = square[0] - 1
-        newSquare[1] = square[1]
-    elif direction == "right":
-        newSquare[0] = square[0] + 1
-        newSquare[1] = square[1]
+        newSquare["x"] = square["x"] - 1
+        newSquare["y"] = square["y"]
+    elif direction == "right":"y"
+        newSquare["x"] = square["x"] + 1
+        newSquare["y"] = square["y"]
     return newSquare
 
 def square_is_safe(square, dangerSquares, height, width):
@@ -73,16 +38,9 @@ def square_is_safe(square, dangerSquares, height, width):
     safe = True
     if square in dangerSquares:
         safe = False
-    if square[0]<0 or square[0]>=width or square[1]<0 or square[1]>=length:
+    if square["x"]<0 or square["x"]>=width or square["y"]<0 or square["y"]>=length:
         safe = False
     return safe
-#def next_move(snakeHead):
-    '''
-    out of move options, choose safe square closest to another snake
-    '''
-
-
-
 
 
 
@@ -128,23 +86,22 @@ def start():
 @bottle.post('/move')
 def move():
     data = bottle.request.json
-    print(data.keys())
-    """
-    TODO: Using the data from the endpoint request object, your
-            snake AI must choose a direction to move in.
-    """
 
     dangerSquares = []
-    for snek in data['board']['snakes']:
+    for snek in data['board']['snakes']:    #other sneks not safe
         for square in snek['body']:
             dangerSquares.append(square)
-            
-    current_square = data['you']['body'][0]
+    for square in data['you']['body']:    ##head and body not safe 
+        dangerSquares.append(square)
+        
+    current_square = data['you']['body'][0]    ##my head
     
     safeMoves = []
     directions = ['up', 'down', 'left', 'right']
     for direction in directions:
-        if square_is_safe(one_move(current_square, direction), dangerSquares, data["height"], data["width"]):
+        if square_is_safe(one_move(current_square, direction), \
+                          dangerSquares, data['board']["height"], \
+                          data['board']["width"]):
             safeMoves.append(direction)
     
     if len(safeMoves) == 0:
