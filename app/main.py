@@ -135,8 +135,8 @@ def move():
     """
 
     dangerSquares = []
-    for snek in data['snakes']:
-        for square in snek['coords']:
+    for snek in data['board']['snakes']:
+        for square in snek['body']:
             dangerSquares.append(square)
             
     safeMoves = []
