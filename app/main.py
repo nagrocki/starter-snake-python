@@ -139,10 +139,12 @@ def move():
         for square in snek['body']:
             dangerSquares.append(square)
             
+    current_square = data['you']['body'][0]
+    
     safeMoves = []
     directions = ['up', 'down', 'left', 'right']
     for direction in directions:
-        if square_is_safe(one_move(direction), dangerSquares, data["height"], data["width"]):
+        if square_is_safe(one_move(current_square, direction), dangerSquares, data["height"], data["width"]):
             safeMoves.append(direction)
     
     if len(safeMoves) == 0:
