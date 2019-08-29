@@ -18,10 +18,10 @@ def one_move(square, direction):
     newSquare = {"x": 0, "y":0}
     if direction == "up":
         newSquare["x"] = square["x"]
-        newSquare["y"] = square["y"] + 1
+        newSquare["y"] = square["y"] - 1
     elif direction == "down":
         newSquare["x"] = square["x"]
-        newSquare["y"] = square["y"] - 1
+        newSquare["y"] = square["y"] + 1
     elif direction == "left":
         newSquare["x"] = square["x"] - 1
         newSquare["y"] = square["y"]
