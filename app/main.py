@@ -41,11 +41,45 @@ from api import ping_response, start_response, move_response, end_response
 #     "gold": 2
 # }
 
-def snek_dist()
-    return None
+def snek_dist(sq1,sq2)
+    '''
+    takes in two tuples and returns taxicab distance
+    '''
+    dx = abs(sq1[0]-sq2[0])
+    dy = abs(sq1[1]-sq2[1])
+    return dx + dy
 
+def one_move(square, direction)
+    newSquare = [0,0]
+    if direction == "up":
+        newSquare[0] = square[0]
+        newSquare[1] = square[1] + 1
+    elif direction == "down":
+        newSquare[0] = square[0]
+        newSquare[1] = square[1] - 1
+    elif direction == "left":
+        newSquare[0] = square[0] - 1
+        newSquare[1] = square[1]
+    elif direction == "right":
+        newSquare[0] = square[0] + 1
+        newSquare[1] = square[1]
+    return newSquare
 
-
+def square_is_safe(square, dangerSquares, height, width)
+    '''
+    takes in danger squares and returns safe squares for a 
+    data["height"]xdata["width"] grid
+    '''
+    safe = True
+    if square in dangerSquares:
+        safe = False
+    if square[0]<0 or square[0]>=width or square[1]<0 or square[1]>=length:
+        safe = False
+    
+def next_move(snakeHead)
+    '''
+    out of move options, choose safe square closest to another snake
+    '''
 
 
 
@@ -104,9 +138,23 @@ def move():
     """
  
     snek, grid = init(data)
-    
+    dangerSquares = []
+    for snek in data['snakes']:
+        for square in snek['coords']:
+            dangerSquares.append(square)
+            
+    safeMoves = []
     directions = ['up', 'down', 'left', 'right']
-    direction = random.choice(directions)
+    for direction in directions:
+        if square_is_safe(one_move(direction)):
+            safeMoves.append(direction)
+    
+    if len(safeMoves) == 0:
+        direction = random.choice(directions)
+    elif len(safeMoves) == 1:
+        direction = safeMoves[0]
+    elif len(safeMoves) > 1:
+        direction = random.choice(safeMoves)
 
     return move_response(direction)
 
