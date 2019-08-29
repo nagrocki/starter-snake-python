@@ -120,9 +120,6 @@ def start():
             initialize your snake state here using the
             request's data if necessary.
     """
-    snek, grid = init(data)
-    
-    
     color = "#6B5B95"
 
     return start_response(color)
@@ -136,8 +133,7 @@ def move():
     TODO: Using the data from the endpoint request object, your
             snake AI must choose a direction to move in.
     """
- 
-    snek, grid = init(data)
+
     dangerSquares = []
     for snek in data['snakes']:
         for square in snek['coords']:
