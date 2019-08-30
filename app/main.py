@@ -103,6 +103,17 @@ def move():
         
     current_square = data['you']['body'][0]    ##my head
     
+    myLength = len(data['you']['body'])
+    
+    scarySneks = []
+    yummySneks = []
+    for snek in data['board']['snakes']:
+        if len(snek['body'])>= myLength:
+            scarySneks.append(snek['body'])
+        else 
+            yummySneks.append(snek['body'])
+    
+    
     safeMoves = []
     directions = ['up', 'down', 'left', 'right']
     for move in directions:
@@ -118,7 +129,8 @@ def move():
     elif len(safeMoves) > 1:
         direction = safeMoves[0]
         for move in directions:
-            if square_score(one_move(square, move)) > square_score(one_move(square, direction)):
+            if square_score(one_move(square, move), scarySneks, yummySneks) > \
+            square_score(one_move(square, direction), scarySneks, yummySneks):
                 direction = move
 
     return move_response(direction)
