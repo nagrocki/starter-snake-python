@@ -46,9 +46,9 @@ def square_is_safe(square, dangerSquares, height, width):
 def square_score(square, scarySneks, yummySneks):
     score = 0
     for snek in scarySneks:
-        score = score - snek_dist(square, snek)
+        score = score - snek_dist(square, snek[0])
     for snek in yummySneks:
-        score = score + snek_dist(square, snek)
+        score = score + snek_dist(square, snek[0])
     return score
 
 @bottle.route('/')
