@@ -110,7 +110,7 @@ def move():
     for snek in data['board']['snakes']:
         if len(snek['body'])>= myLength:
             scarySneks.append(snek['body'])
-        else 
+        else:
             yummySneks.append(snek['body'])
     
     
