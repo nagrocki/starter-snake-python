@@ -43,12 +43,14 @@ def square_is_safe(square, dangerSquares, height, width):
         safe = False
     return safe
 
-def square_score(square, scarySneks, yummySneks):
+def square_score(square, scarySneks, yummySneks, foods):
     score = 0
     for snek in scarySneks:
-        score = score + snek_dist(square, snek[0])
+        score = score - 1/snek_dist(square, snek[0])
     for snek in yummySneks:
-        score = score - snek_dist(square, snek[0])
+        score = score + 1/snek_dist(square, snek[0])
+    for food in foods:
+        score = score + 2/snek_dist(square, food)
     return score
 
 @bottle.route('/')
@@ -102,7 +104,7 @@ def move():
         dangerSquares.append(square)
         
     currentSquare = data['you']['body'][0]    ##my head
-    
+    foods = data['board']['food']
     myLength = len(data['you']['body'])
     
     scarySneks = []
@@ -129,8 +131,8 @@ def move():
     elif len(safeMoves) > 1:
         direction = safeMoves[0]
         for move in safeMoves:
-            if square_score(one_move(currentSquare, move), scarySneks, yummySneks) > \
-            square_score(one_move(currentSquare, direction), scarySneks, yummySneks):
+            if square_score(one_move(currentSquare, move), scarySneks, yummySneks, foods) > \
+            square_score(one_move(currentSquare, direction), scarySneks, yummySneks, foods):
                 direction = move
 
     return move_response(direction)
