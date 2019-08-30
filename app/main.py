@@ -48,9 +48,15 @@ def square_score(square, scarySneks, yummySneks, foods):
     for snek in scarySneks:
         score = score - 1/snek_dist(square, snek[0])
     for snek in yummySneks:
-        score = score + 1/snek_dist(square, snek[0])
+        if snek_dist(square, snek[0]) == 0:
+            score = score + 3
+        else:
+            score = score + 1/snek_dist(square, snek[0])
     for food in foods:
-        score = score + 2/snek_dist(square, food)
+        if snek_dist(square, food) == 0:
+            score = score + 3
+        else:
+            score = score + 2/snek_dist(square, food)
     return score
 
 @bottle.route('/')
