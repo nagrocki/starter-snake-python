@@ -30,7 +30,7 @@ def one_move(square, direction):
         newSquare["y"] = square["y"]
     return newSquare
 
- def square_is_safe(square, dangerSquares, height, width):
+def square_is_safe(square, dangerSquares, height, width):
     '''
     takes in danger squares and returns safe squares for a 
     data["height"]xdata["width"] grid
