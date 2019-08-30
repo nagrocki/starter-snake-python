@@ -30,7 +30,7 @@ def one_move(square, direction):
         newSquare["y"] = square["y"]
     return newSquare
 
-def square_is_safe(square, dangerSquares, height, width):
+ def square_is_safe(square, dangerSquares, height, width):
     '''
     takes in danger squares and returns safe squares for a 
     data["height"]xdata["width"] grid
@@ -43,7 +43,13 @@ def square_is_safe(square, dangerSquares, height, width):
         safe = False
     return safe
 
-
+def square_score(square, scarySneks, yummySneks):
+    score = 0
+    for snek in scarySneks:
+        score = score - snek_dist(square, snek)
+    for snek in yummySneks:
+        score = score + snek_dist(square, snek)
+    return score
 
 @bottle.route('/')
 def index():
@@ -99,18 +105,21 @@ def move():
     
     safeMoves = []
     directions = ['up', 'down', 'left', 'right']
-    for direction in directions:
-        if square_is_safe(one_move(current_square, direction), \
+    for move in directions:
+        if square_is_safe(one_move(current_square, move), \
                           dangerSquares, data['board']["height"], \
                           data['board']["width"]):
-            safeMoves.append(direction)
+            safeMoves.append(move)
     
     if len(safeMoves) == 0:
         direction = random.choice(directions)
     elif len(safeMoves) == 1:
         direction = safeMoves[0]
     elif len(safeMoves) > 1:
-        direction = random.choice(safeMoves)
+        direction = safeMoves[0]
+        for move in directions:
+            if square_score(one_move(square, move)) > square_score(one_move(square, direction)):
+                direction = move
 
     return move_response(direction)
 
