@@ -128,7 +128,7 @@ def move():
         direction = safeMoves[0]
     elif len(safeMoves) > 1:
         direction = safeMoves[0]
-        for move in directions:
+        for move in safeMoves:
             if square_score(one_move(currentSquare, move), scarySneks, yummySneks) > \
             square_score(one_move(currentSquare, direction), scarySneks, yummySneks):
                 direction = move
