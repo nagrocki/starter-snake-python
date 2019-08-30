@@ -101,7 +101,7 @@ def move():
     for square in data['you']['body']:    ##head and body not safe 
         dangerSquares.append(square)
         
-    current_square = data['you']['body'][0]    ##my head
+    currentSquare = data['you']['body'][0]    ##my head
     
     myLength = len(data['you']['body'])
     
@@ -117,7 +117,7 @@ def move():
     safeMoves = []
     directions = ['up', 'down', 'left', 'right']
     for move in directions:
-        if square_is_safe(one_move(current_square, move), \
+        if square_is_safe(one_move(currentSquare, move), \
                           dangerSquares, data['board']["height"], \
                           data['board']["width"]):
             safeMoves.append(move)
@@ -129,8 +129,8 @@ def move():
     elif len(safeMoves) > 1:
         direction = safeMoves[0]
         for move in directions:
-            if square_score(one_move(square, move), scarySneks, yummySneks) > \
-            square_score(one_move(square, direction), scarySneks, yummySneks):
+            if square_score(one_move(currentSquare, move), scarySneks, yummySneks) > \
+            square_score(one_move(currentSquare, direction), scarySneks, yummySneks):
                 direction = move
 
     return move_response(direction)
