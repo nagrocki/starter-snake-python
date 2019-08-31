@@ -46,7 +46,10 @@ def square_is_safe(square, dangerSquares, height, width):
 def square_score(square, scarySneks, yummySneks, foods):
     score = 0
     for snek in scarySneks:
-        score = score - 1/snek_dist(square, snek[0])
+        if snek_dist(square, snek[0]) == 1:
+            score = score - 4
+        else:
+            score = score - 2/snek_dist(square, snek[0])
     for snek in yummySneks:
         if snek_dist(square, snek[0]) == 0:
             score = score + 3
