@@ -159,9 +159,9 @@ def move():
                 
     filename = "gamedata.json"
     if filename:
-    # Writing JSON data
-    with open(filename, 'w') as f:
-        json.dump(data, f)
+        # Writing JSON data
+        with open(filename, 'w') as f:
+            json.dump(data, f)
                 
                 
     return move_response(direction)
