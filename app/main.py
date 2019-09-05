@@ -156,13 +156,7 @@ def move():
             if square_score(one_move(currentSquare, move), scarySneks, yummySneks, foods) > \
             square_score(one_move(currentSquare, direction), scarySneks, yummySneks, foods):
                 direction = move
-                
-    filename = "gamedata.json"
-    if filename:
-        # Writing JSON data
-        with open(filename, 'w') as f:
-            json.dump(data, f)
-                
+               
                 
     return move_response(direction)
 
