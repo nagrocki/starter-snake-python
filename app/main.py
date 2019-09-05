@@ -8,13 +8,16 @@ from api import ping_response, start_response, move_response, end_response
 
 def snek_dist(sq1,sq2):
     '''
-    takes in two tuples and returns taxicab distance
+    takes in two x,y tuples and returns taxicab distance
     '''
     dx = abs(sq1["x"]-sq2["x"])
     dy = abs(sq1["y"]-sq2["y"])
     return dx + dy
 
 def one_move(square, direction):
+    '''
+    takes in a square and a direction and returns the square one step in that direction
+    '''
     newSquare = {"x": 0, "y":0}
     if direction == "up":
         newSquare["x"] = square["x"]
@@ -32,8 +35,11 @@ def one_move(square, direction):
 
 def square_is_safe(square, dangerSquares, height, width):
     '''
-    takes in danger squares and returns safe squares for a 
-    data["height"]xdata["width"] grid
+    takes in a square and the danger squares and the height and width of the 
+    data["height"]xdata["width"] grid,
+    returns True if square is potentially a safe move for the next turn.
+    
+    *This function does not check for squares adjacent to enemy snake heads*
     '''
     safe = True
     for dSquare in dangerSquares:
@@ -44,6 +50,11 @@ def square_is_safe(square, dangerSquares, height, width):
     return safe
 
 def square_score(square, scarySneks, yummySneks, foods):
+    '''
+    This functon scores a square based on how close it is to food, bigger snakes,
+    and smaller snakes. A higher score should correspond to a better move.
+    '''
+    
     score = 0
     for snek in scarySneks:
         if snek_dist(square, snek[0]) == 1:
@@ -145,7 +156,14 @@ def move():
             if square_score(one_move(currentSquare, move), scarySneks, yummySneks, foods) > \
             square_score(one_move(currentSquare, direction), scarySneks, yummySneks, foods):
                 direction = move
-
+                
+    filename = "gamedata.json"
+    if filename:
+    # Writing JSON data
+    with open(filename, 'w') as f:
+        json.dump(data, f)
+                
+                
     return move_response(direction)
 
 
