@@ -147,9 +147,9 @@ def move():
             safeMoves.append(move)
     
     if len(safeMoves) == 0:
-        direction = random.choice(directions)
+        direction = random.choice(directions)    # when there are no safe moves, chaos ensues
     elif len(safeMoves) == 1:
-        direction = safeMoves[0]
+        direction = safeMoves[0]                 # take the only safe move if that's the only choice!
     elif len(safeMoves) > 1:
         direction = safeMoves[0]
         for move in safeMoves:
