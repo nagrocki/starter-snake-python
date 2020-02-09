@@ -118,7 +118,7 @@ def start():
     color = "#6B5B95"
     headType = "silly"
     tailType = "freckled"
-    return start_response(color)
+    return start_response(color, headType, tailType)
 
 
 @bottle.post('/move')
