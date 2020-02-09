@@ -60,14 +60,20 @@ def square_score(square, scarySneks, yummySneks, foods):
         if snek_dist(square, snek[0]) == 1:
             score = score - 4
         else:
-            score = score + 2/(snek_dist(square, snek[0]))**2
+            score = score - 4/(snek_dist(square, snek[0]))**2
     for snek in yummySneks:
-        if snek_dist(square, snek[0]) == 0:
-            score = score - 4 
-        elif snek_dist(square, snek[0]) == 1:
-            score = score + 3
+        if snek_dist(square, snek[0]) == 1:
+            score = score + 4
         else:
-            score = score + 2/(snek_dist(square, snek[0]))**2
+            score = score + 4/(snek_dist(square, snek[0]))**2
+            
+    ## follow tails? (NEXT try following just scary tails?)
+    for snek in data['board']['snakes']:
+        if snek_dist(square, snek['body'][-1]) == 0:
+            score = score + 3
+        if snek_dist(square, snek['body'][-1]) == 1:
+            score = score + 1            
+            
     for food in foods:
         if snek_dist(square, food) == 0:
             score = score + 5
@@ -119,10 +125,10 @@ def move():
     data = bottle.request.json
 
     dangerSquares = []
-    for snek in data['board']['snakes']:    #other sneks not safe
-        for square in snek['body']:
+    for snek in data['board']['snakes']:    #other sneks not safe (but tail is cool)
+        for square in snek['body'][:-1]:
             dangerSquares.append(square)
-    for square in data['you']['body']:    ##head and body not safe 
+    for square in data['you']['body'][:-1]:    ##head and body not safe (but tail is cool)
         dangerSquares.append(square)
         
     currentSquare = data['you']['body'][0]    ##my head
