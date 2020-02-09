@@ -116,7 +116,8 @@ def start():
             request's data if necessary.
     """
     color = "#6B5B95"
-
+    headType = "silly"
+    tailType = "freckled"
     return start_response(color)
 
 
@@ -138,9 +139,9 @@ def move():
     scarySneks = []
     yummySneks = []
     for snek in data['board']['snakes']:
-        if len(snek['body'])>= myLength:
+        if len(snek['body'])>= myLength and snek['id'] != data['you']['id']:
             scarySneks.append(snek['body'])
-        else:
+        elif len(snek['body'])< myLength and snek['id'] != data['you']['id']:
             yummySneks.append(snek['body'])
     
     
