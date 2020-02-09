@@ -60,23 +60,20 @@ def square_score(square, scarySneks, yummySneks, foods):
         if snek_dist(square, snek[0]) == 1:
             score = score - 4
         else:
-            score = score - 4/(snek_dist(square, snek[0]))**2
+            score = score - 4/(snek_dist(square, snek[0]))**2 #run from head
+            
+        if snek_dist(square, snek[-1]) == 0:                  #run to tail
+            score = score + 3
+        elif snek_dist(square, snek[-1]) == 1:
+            score = score + 1   
+            
             
     for snek in yummySneks:
         if snek_dist(square, snek[0]) == 1:
             score = score + 4
         else:
             score = score + 4/(snek_dist(square, snek[0]))**2
-            
-    ## follow tails? (NEXT try following just scary tails?)
-    for snek in data['board']['snakes']:
-        if snek_dist(square, snek['body'][-1]) == 0:
-            score = score + 3
-            
-        if snek_dist(square, snek['body'][-1]) == 1:
-            score = score + 1       
-            
-            
+
     for food in foods:
         if snek_dist(square, food) == 0:
             score = score + 5
