@@ -5,6 +5,50 @@ import bottle
 
 from api import ping_response, start_response, move_response, end_response
 
+"""
+    TODO:
+        
+        -Check for certain victory (a move which will land on a yummy enemy snake guaranteed)
+        
+        -alter behaviour based on hunger
+        
+"""
+
+def length_n_paths(square, length, dangerSquares, height, width):
+   '''
+   returns all of the length n paths from square
+   any given path contains no cycles, but two paths can share squares
+   '''
+    directions = ["up", "down", "left", "right"]
+    
+    safeMoves = safe_moves(square, dangerSquares, height, width)
+    paths = []
+    for move in safeMoves:
+        startPath = [one_move(square, safeMoves)]
+        paths.append(startPath)
+        
+    for i in range(length):
+        longerPaths = []
+        for path in paths:
+            frontier = path[-1]
+            safeMoves = safe_moves(frontier, dangerSquares, height, width)
+            for move in safeMoves:
+                nextSquare = one_move(square, move)
+                if nextSquare not in path:
+                    newPath = list(path)
+                    newPath.append(nextSquare)
+                longerPaths.append(newPath)
+        paths = longerPaths
+        
+    return paths
+
+def score_path(path, scarySneks, yummySneks, foods):
+    score = 0
+    for square in path:
+        score = score + square_score(square, scarySneks, yummySneks, foods):
+            
+            ##TODO update square score to measure distance wth distace matric built by BFS search
+    
 
 def snek_dist(sq1,sq2):
     '''
@@ -49,6 +93,17 @@ def square_is_safe(square, dangerSquares, height, width):
         safe = False
     return safe
 
+def save_moves(currentSquare, dangerSquares, height, width)
+    safeMoves = []
+    directions = ['up', 'down', 'left', 'right']
+    for move in directions:
+        if square_is_safe(one_move(currentSquare, move), \
+                          dangerSquares, height, width):
+            safeMoves.append(move)
+    
+    return safeMoves
+               
+               
 def square_score(square, scarySneks, yummySneks, foods):
     '''
     This functon scores a square based on how close it is to food, bigger snakes,
@@ -129,7 +184,7 @@ def move():
     for snek in data['board']['snakes']:    #other sneks not safe (but tail is cool)
         for square in snek['body'][:-1]:
             dangerSquares.append(square)
-    for square in data['you']['body'][:-1]:    ##head and body not safe (but tail is cool)
+    for square in data['you']['body'][:-1]:     #my snek not safe (but tail is cool)
         dangerSquares.append(square)
         
     currentSquare = data['you']['body'][0]    ##my head
@@ -145,13 +200,7 @@ def move():
             yummySneks.append(snek['body'])
     
     
-    safeMoves = []
-    directions = ['up', 'down', 'left', 'right']
-    for move in directions:
-        if square_is_safe(one_move(currentSquare, move), \
-                          dangerSquares, data['board']["height"], \
-                          data['board']["width"]):
-            safeMoves.append(move)
+    safeMoves = safe_moves(currentSquare, dangerSquares, data['board']['height'], data['board']['width'])
     
     if len(safeMoves) == 0:
         direction = random.choice(directions)    # when there are no safe moves, chaos ensues
